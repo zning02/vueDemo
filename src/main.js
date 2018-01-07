@@ -9,6 +9,7 @@ import forecast from './pages/detail/forecast'
 import count from './pages/detail/count'
 import publish from './pages/detail/publish'
 import analysis from './pages/detail/analysis'
+import OrderListPage from './pages/order'
 
 
 Vue.use(VueRouter)
@@ -17,6 +18,10 @@ let router = new VueRouter({
   routes: [{
       path: '/',
       component: IndexPage
+    },
+    {
+      path: '/orderList',
+      component: OrderListPage
     },
     {
       path: '/detail',

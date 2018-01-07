@@ -2,7 +2,7 @@
   <div class="counter-component">
     <div class="counter-btn" @click="minus"> - </div>
         <div class="counter-show">
-            <input type="text" v-model="number">
+            <input type="text" v-model="number" @keyup="fixNumber">
         </div>
     <div class="counter-btn" @click="add">+</div>
   </div>
@@ -43,6 +43,19 @@ export default {
         else{
             this.number++;
         }
+    },
+    fixNumber(){
+      let fix;
+      if(typeof this.number==='string'){
+        fix=Number(this.number.replace(/\D/g,''));
+      }
+      else{
+        fix=this.number;
+      }
+      if(fix<this.smin||fix>this.max){
+        fix=this.min;
+      }
+      this.number=fix;
     }
   }
 };
