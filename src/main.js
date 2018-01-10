@@ -10,6 +10,7 @@ import count from './pages/detail/count'
 import publish from './pages/detail/publish'
 import analysis from './pages/detail/analysis'
 import OrderListPage from './pages/order'
+import store from './store'
 
 
 Vue.use(VueRouter)
@@ -50,6 +51,7 @@ let router = new VueRouter({
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<Layout/>',
   components: {
     Layout

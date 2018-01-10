@@ -1,6 +1,6 @@
 <template>
-    <div class="selection-component" @click="isDrop=!isDrop">
-      <div class="selection-show">
+    <div class="selection-component">
+      <div class="selection-show"  @click="toggleDrop">
         <span>{{selections[nowIndex].label}}</span>
         <div class="arrow"></div>
       </div>
@@ -13,30 +13,44 @@
 </template>
 
 <script>
+import { eventBus } from "../../eventBus";
 export default {
   props: {
     selections: {
       type: Array,
-      default: [{
-        label: 'test',
-        value: 0
-      }]
+      default: [
+        {
+          label: "test",
+          value: 0
+        }
+      ]
     }
   },
-  data(){
+  data() {
     return {
-      isDrop:false,
-      nowIndex:0
-    }
+      isDrop: false,
+      nowIndex: 0
+    };
   },
-  methods:{
-    chooseItem(index){
-      this.nowIndex=index;
-      this.$emit('on-change',this.selections[index]);
-    }
+  mounted() {
+    eventBus.$on("reset-component", () => {
+      console.log('reset');
+      this.isDrop = false;
+    });
   },
-
-}
+  methods: {
+    chooseItem(index) {
+      this.nowIndex = index;
+      this.isDrop=false;
+      this.$emit("on-change", this.selections[index]);
+    },
+    toggleDrop(event) {
+      event.stopPropagation();
+      eventBus.$emit("reset-component");
+      this.isDrop = !this.isDrop;
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -87,7 +101,6 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
 }
 .selection-list li:hover {
   background: #e3e3e3;

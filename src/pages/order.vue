@@ -6,6 +6,10 @@
                 <V-Selection :selections="products" @on-change='changeProduct'></V-Selection>
            </div>
            <div class="order-list-option">
+               选择产品：
+                <V-Selection :selections="products" @on-change='changeProduct'></V-Selection>
+           </div>
+           <div class="order-list-option">
                开始日期：
                 <vue-datepicker-local v-model="startTime" />
            </div>
@@ -94,7 +98,7 @@ export default {
           key: "amount"
         }
       ],
-      tableData: []
+     
     };
   },
   watch: {
@@ -112,8 +116,13 @@ export default {
   },
   methods: {
     changeProduct(obj) {
-      this.productId = obj.value;
-      this.getList();
+      this.$store.commit('updateParams',{
+        key:'productId',
+        val:obj.value
+      });
+        this.$store.dispatch('fetchOrderList');
+      // this.productId = obj.value;
+      // this.getList();
     },
     getList() {
       let reqParams = {
@@ -157,10 +166,16 @@ export default {
         "amount": "7890元"
       }
     ];
-      console.log("getList");
     }
   },mounted(){
-      this.getList();
+      // this.getList();
+      this.$store.dispatch('fetchOrderList');
+      console.log(this.$store);
+  },
+  computed:{
+      tableData(){
+        return this.$store.getters.getOrderList;
+      }
   }
 };
 </script>
